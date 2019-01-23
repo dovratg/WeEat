@@ -1,0 +1,21 @@
+{% extends 'we_eat/base.html' %}
+
+
+<h2>Latest reviews</h2>
+
+
+{% if latest_review_list %}
+<div>
+    {% for review in latest_review_list %}
+    <div>
+        <h4 {margin: 0px;}><a href="{% url 'we_eat:restaurant_detail' review.id %}">
+        {{ review.restaurant.name }}
+        </a></h4>
+        <h5 {margin: 0;}>{{ review.user_name }} : rated {{ review.get_rating_display}} <br>
+            comments: {{ review.comment }}</h5>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No reviews are available.</p>
+{% endif %}
