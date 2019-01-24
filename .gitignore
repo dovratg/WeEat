@@ -1,0 +1,11 @@
+static/
+.env
+venv
+.idea
+*.pyc
+*.db
+*.swp
+*.swo
+*.pid
+*.iml
+migrations/

@@ -1,0 +1,41 @@
+{% load bootstrap3 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load static %}
+{% block bootstrap3_content %}
+{% load crispy_forms_tags %}
+
+    <style type="text/css">
+.bgimg {
+    background-image: url("{% static "we_eat/header.jpg" %}");
+    -webkit-border-image:100%;
+    height: 250px;
+    font-family: "Comic Sans MS";
+}
+
+ .rapper {
+alignment-baseline: center !important;
+ text-align: center !important;
+     alignment: center !important;
+     font-family: Lato, "Helvetica Neue", sans-serif !important;
+}
+</style>
+
+<div>
+    <nav  class="bgimg">
+       <div class="rapper">
+            <a href="{% url 'we_eat:restaurant_list' %}"  style="font-family: Comic Sans MS !important; color: black; text-emphasis: black; font-size: 120px;">We Eat</a>
+
+        </div>
+    </nav>
+  <link rel="shortcut icon" type="image/x-icon" href="{% static "we_eat/header.jpg" %}" />
+
+    {% block title %}{% endblock %}
+
+    {% bootstrap_messages %}
+
+    {% block content %}{% endblock %}
+</div>
+
+{% endblock %}

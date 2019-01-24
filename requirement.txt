@@ -1,0 +1,7 @@
+django
+psycopg2
+django-ratings
+pinax-ratings
+numpy
+django-bootstrap3
+django-filter
