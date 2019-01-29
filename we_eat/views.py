@@ -5,6 +5,7 @@ from .models import Review, Restaurant
 from .filters import RestaurantFilter
 from .forms import ReviewForm
 import datetime
+from django.db.models import Avg
 # from uni_form.helper import FormHelper
 from crispy_forms.helper import FormHelper
 
@@ -34,6 +35,13 @@ def restaurant_detail(request, restaurant_id):
     return render(request, 'we_eat/restaurant_detail.html', {'restaurant': restaurant, 'form': form})
 
 
+def calc_avg_review(restaurant_id):
+    restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
+    avg = list(Review.objects.filter(restaurant_id=restaurant_id).aggregate(Avg('rating')).values())[0]
+    restaurant.avg_rating = avg
+    restaurant.save()
+
+
 def add_review(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     form = ReviewForm(request.POST)
@@ -50,7 +58,7 @@ def add_review(request, restaurant_id):
         review.comment = comment
         review.pub_date = datetime.datetime.now()
         review.save()
+        calc_avg_review(restaurant_id)
         return HttpResponseRedirect(reverse('we_eat:restaurant_detail', args=(restaurant.id,)))
-    print('rennder')
 
     return render(request, 'we_eat/restaurant_detail.html', {'restaurant': restaurant, 'form': form})

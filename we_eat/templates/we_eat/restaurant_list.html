@@ -221,7 +221,7 @@ function closeForm() {
     {% for restaurant in filter.qs %}
         <div class="row"  style="border-bottom: 1px solid gainsboro;">
         <div class="column_2" style="font-size: 5px !important; alignment: center; margin-left: 25px;">
-        <i style="color:{{restaurant.cuisine_img.1}}"; data-icon={{restaurant.cuisine_img.0}}></i>
+            <i style="color:{{ restaurant.cuisine_img.1 }}" ; data-icon={{ restaurant.cuisine_img.0 }}></i>
 
   </div>
   <div class="column_1">
@@ -235,21 +235,23 @@ function closeForm() {
 
         </h4>
         <div  style="font-size: 14px">
-         {% if restaurant.average_rating >= 3 %}
+        {% if restaurant.avg_rating %}
+         {% if restaurant.avg_rating >= 3 %}
       <span class="fa fa-star checked" style="color: orange !important;"></span>
 <span class="fa fa-star checked" style="color: orange !important;"></span>
 <span class="fa fa-star checked" style="color: orange !important;"></span>
   {% endif %}
-        {%  if restaurant.average_rating  >= 2 and  restaurant.average_rating < 3 %}
+        {%  if restaurant.avg_rating  >= 2.00 and  restaurant.avg_rating < 3 %}
       <span class="fa fa-star checked"  style="color: orange !important;"></span>
 <span class="fa fa-star checked" style="color: orange !important;"></span>
             <span class="fa fa-star"></span>
   {% endif %}
-          {%  if restaurant.average_rating < 2  %}
+          {%  if restaurant.avg_rating < 2  %}
       <span class="fa fa-star checked" style="color: orange !important;"></span>
               <span class="fa fa-star"></span>
               <span class="fa fa-star"></span>
   {% endif %}
+        {% endif %}
 
             ({{ restaurant.review_set.count }} reviews)</div>
 

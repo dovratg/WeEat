@@ -1,8 +1,5 @@
 from django.db import models
 import uuid
-import numpy as np
-from googlegeocoder import GoogleGeocoder
-from geopy.geocoders import Nominatim
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -26,11 +23,12 @@ class Restaurant(models.Model):
      )
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+    avg_rating = models.FloatField(null=True, blank=True, default=None)
     list_filter = ['name', 'ten_bis']
 
-    def average_rating(self):
-        all_ratings = list(map(lambda x: x.rating, self.review_set.all()))
-        return np.mean(all_ratings)
+    # def average_rating(self):
+    #     all_ratings = list(map(lambda x: x.rating, self.review_set.all()))
+    #     return np.mean(all_ratings)
 
     def cuisine_img(self):
         if self.cuisine == "Burgerim":
