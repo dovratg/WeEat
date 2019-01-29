@@ -1,0 +1,270 @@
+{% extends 'we_eat/base.html' %}
+{% load bootstrap3 %}
+{% block title %}
+<html xmlns="http://www.w3.org/1999/html"><html>
+    <head>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'we_eat/style.css' %}" type="text/css">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  {#width: 50%;#}
+  {#padding: 10px;#}
+}
+
+
+.container_right {
+  float: right;
+  width: 50%;
+}
+
+.container_left {
+  float: left;
+  width: 30%;
+}
+.column_map {
+  float: right;
+  width: 70%;
+  {#padding: 10px;#}
+}
+
+.column_info {
+  float: left;
+  width: 50%;
+  {#padding: 10px;#}
+}
+.column_2 {
+  float: left;
+  width: 35px;
+  {#padding: 10px;#}
+}
+.column_1 {
+  float: left;
+  {#width: 30%;#}
+    margin-left: 50px;
+  {#padding: 25px;#}
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+
+    * {
+  {#box-sizing: border-box;#}
+}
+
+    /* Button used to open the contact form - fixed at the bottom of the page */
+
+/* The popup form - hidden by default */
+.form-popup {
+  {#display: none;#}
+  position: center;
+  border: 3px solid #f1f1f1;
+  z-index: 4;
+    display: block;
+    margin-top: 0em;
+  {#  top: calc(50% - 25px); // half of width#}
+  {#left: calc(50% - 50px); // half of height#}
+    background-color: #738f9c;
+}
+
+/* Add styles to the form container */
+
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 50%;
+  padding: 1px;
+  margin: 0;
+  border: none;
+  background: #f1f1f1;
+
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:3px;
+  opacity: 0.6;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+.checked {
+  color: orange !important;
+}
+
+</style>
+    </head>
+<body style="font-family: Lato, 'Helvetica Neue', sans-serif;">
+{#<div class="container">#}
+ <button type="button"  style="background-color: orange; border-radius: 12px;" class="btn btn-default btn-sm" onclick="openForm()"><span class="glyphicon glyphicon-plus"></span>Filter</button>
+<div class="form-popup" id="myForm" style="display: none !important;">
+{% load widget_tweaks %}
+    <form method="get">
+    <div class="well well-sm" style="font-size:20px; background-color: lightsteelblue">
+      <div class="row" style="font-size:15px">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.name.label_tag }}
+          {% render_field filter.form.name class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.ten_bis.label_tag }}
+          {% render_field filter.form.ten_bis class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.maximum_delivery_time.label_tag }}
+          {% render_field filter.form.maximum_delivery_time class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.cuisine.label_tag }}
+          {% render_field filter.form.cuisine class="form-control" %}
+          </div>
+
+        </div>
+
+    {% buttons %}
+    <button type="submit">Filter</button>
+    <button type="button"  onclick="closeForm()">Close</button>
+     {% endbuttons %}
+     </div>
+  </form>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+
+</div>
+{#</div>#}
+    {% endblock %}
+{% block content %}
+
+{% if restaurant_list %}
+ <div class="column_map" id="map" style="width:70%;height:760px;">
+
+<script>
+
+  var map;
+  var geocoder;
+  {#var latLng = new google.maps.LatLng(32.0853, 34.7818);#}
+ function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: {lat: 32.0853, lng: 34.7818}
+            });
+            geocoder = new google.maps.Geocoder();
+            loadMarkers(geocoder, map);
+        }
+
+  function loadMarkers(geocoder, map){
+      {% for mark in filter.qs %}
+                      geocoder.geocode({'address': "{{ mark.address }}"}, function(results, status) {
+                if (status === 'OK') {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location,
+                        title: "{{ mark.name }}"
+                    });
+                } else {alert('Geocode was not successful for the following reason: ' + status);}
+            });
+
+ {% endfor %}
+  }
+
+
+</script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3G7raKIv3Uco7ajFUYXon-Lmp4SuR9nM&callback=initMap&region=IL"></script>
+</div>
+
+  <div class="column">
+    {% for restaurant in filter.qs %}
+        <div class="row"  style="border-bottom: 1px solid gainsboro;">
+        <div class="column_2" style="font-size: 5px !important; alignment: center; margin-left: 25px;">
+            <i style="color:{{ restaurant.cuisine_img.1 }}" ; data-icon={{ restaurant.cuisine_img.0 }}></i>
+
+  </div>
+  <div class="column_1">
+        <h4><a href="{% url 'we_eat:restaurant_detail' restaurant.id %}">
+        {{ restaurant.name }}
+
+               </a>
+        {% if restaurant.ten_bis == True %}
+      <img src="{% static "we_eat/10bis.png" %}" alt="10bis" style="align-content: left; width:30px;height:20px;">
+        {% endif %}
+
+        </h4>
+        <div  style="font-size: 14px">
+        {% if restaurant.avg_rating %}
+         {% if restaurant.avg_rating >= 3 %}
+      <span class="fa fa-star checked" style="color: orange !important;"></span>
+<span class="fa fa-star checked" style="color: orange !important;"></span>
+<span class="fa fa-star checked" style="color: orange !important;"></span>
+  {% endif %}
+        {%  if restaurant.avg_rating  >= 2.00 and  restaurant.avg_rating < 3 %}
+      <span class="fa fa-star checked"  style="color: orange !important;"></span>
+<span class="fa fa-star checked" style="color: orange !important;"></span>
+            <span class="fa fa-star"></span>
+  {% endif %}
+          {%  if restaurant.avg_rating < 2  %}
+      <span class="fa fa-star checked" style="color: orange !important;"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>
+  {% endif %}
+        {% endif %}
+
+            ({{ restaurant.review_set.count }} reviews)</div>
+
+  {{ restaurant.address }}
+         </div>
+        </div>
+
+        <br>
+
+{% endfor %}
+{% endif %}
+</div>
+{% endblock %}
+
+</body>
+</html>

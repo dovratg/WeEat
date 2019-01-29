@@ -1,0 +1,10 @@
+{% extends 'we_eat/base.html' %}
+{% if review %}
+<div>
+    {{ review.user_name }}<br>
+    {{ review.pub_date }}<br>
+    {{ review.rating }}<br>
+    {{ review.comment}}<br>
+{% else %}
+<p>No details are available.</p>
+{% endif %}
